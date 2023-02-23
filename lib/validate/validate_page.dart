@@ -35,7 +35,37 @@ class _ValidatePageState extends State<ValidatePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BlocListener<ValidateCubit, ValidateState>(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Center(
+              child: TextFormField(
+                controller: _controller,
+                decoration: const InputDecoration(
+                  label: Text("Username"),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          BlocConsumer<ValidateCubit, ValidateState>(
+            builder: (context, state) {
+              return state.isTrue
+                  ? const SizedBox.shrink()
+                  : const Padding(
+                      padding: EdgeInsets.only(left: 16),
+                      child: Text(
+                        'Wrong answer',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+            },
             listenWhen: (previous, current) {
               return current.isTrue;
             },
@@ -48,38 +78,6 @@ class _ValidatePageState extends State<ValidatePage> {
                   ),
                 );
               }
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Center(
-                child: TextFormField(
-                  controller: _controller,
-                  decoration: const InputDecoration(
-                    label: Text("Username"),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(6)),
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(6)),
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          BlocBuilder<ValidateCubit, ValidateState>(
-            builder: (context, state) {
-              return state.isTrue
-                  ? const SizedBox.shrink()
-                  : const Padding(
-                      padding: EdgeInsets.only(left: 16),
-                      child: Text(
-                        'Wrong answer',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
             },
           )
         ],
